@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الخبر | مؤسسة ليان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .hero-img {
+            max-height: 520px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 1.5rem;
+        }
+
+        .article-body p {
+            margin-bottom: 1.2rem;
+            line-height: 2.1;
+            font-size: 1.08rem;
+            color: #374151;
+        }
+
+        .share-btn {
+            transition: all 0.2s ease;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Skeleton loader */
+        .skeleton {
+            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 0.5rem;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-100">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-all">
+                <img src="logo.png" alt="Layan Logo" class="w-10 h-10 object-contain">
+                <div>
+                    <h1 class="text-lg font-bold text-blue-900 leading-none">مؤسسة ليان</h1>
+                    <span class="text-xs text-blue-500 font-semibold">من أجل الإنسان</span>
+                </div>
+            </a>
+            <a href="index.html#news"
+                class="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-semibold transition-all text-sm">
+                <i class="fas fa-arrow-right"></i>
+                العودة للأخبار
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 md:px-6 py-12 max-w-4xl">
+
+        <!-- Skeleton shown while loading -->
+        <div id="skeleton-loader">
+            <div class="skeleton h-8 w-3/4 mb-4"></div>
+            <div class="skeleton h-4 w-1/3 mb-8"></div>
+            <div class="skeleton h-72 w-full mb-8"></div>
+            <div class="skeleton h-4 w-full mb-3"></div>
+            <div class="skeleton h-4 w-full mb-3"></div>
+            <div class="skeleton h-4 w-5/6 mb-3"></div>
+            <div class="skeleton h-4 w-full mb-3"></div>
+            <div class="skeleton h-4 w-4/5 mb-3"></div>
+        </div>
+
+        <!-- Article (hidden until loaded) -->
+        <article id="article-container" class="hidden">
+
+            <!-- Breadcrumb -->
+            <nav class="text-sm text-slate-400 mb-6 flex items-center gap-2">
+                <a href="index.html" class="hover:text-blue-600 transition-all">الرئيسية</a>
+                <i class="fas fa-chevron-left text-xs"></i>
+                <a href="index.html#news" class="hover:text-blue-600 transition-all">الأخبار</a>
+                <i class="fas fa-chevron-left text-xs"></i>
+                <span id="breadcrumb-title" class="text-slate-600 truncate max-w-xs"></span>
+            </nav>
+
+            <!-- Category + Date -->
+            <div class="flex items-center gap-3 mb-5">
+                <span id="article-category"
+                    class="px-4 py-1 bg-blue-600 text-white text-sm font-bold rounded-full"></span>
+                <span class="text-slate-400 text-sm flex items-center gap-1">
+                    <i class="far fa-calendar-alt"></i>
+                    <span id="article-date"></span>
+                </span>
+            </div>
+
+            <!-- Title -->
+            <h2 id="article-title" class="text-3xl md:text-4xl font-bold text-slate-900 mb-8 leading-tight"></h2>
+
+            <!-- Hero Image -->
+            <div id="image-wrapper" class="mb-10 hidden">
+                <img id="article-image" class="hero-img shadow-xl" alt="صورة الخبر"
+                    onerror="document.getElementById('image-wrapper').classList.add('hidden')">
+            </div>
+
+            <!-- Content -->
+            <div id="article-body"
+                class="article-body bg-white rounded-2xl p-8 shadow-sm border border-slate-100 mb-10">
+                <!-- Content injected here -->
+            </div>
+
+            <!-- Tags -->
+            <div id="tags-section" class="mb-10 hidden">
+                <h6 class="text-sm font-bold text-slate-500 mb-3">الوسوم:</h6>
+                <div id="tags-container" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Share Buttons -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-12">
+                <h6 class="font-bold text-slate-700 mb-4 flex items-center gap-2">
+                    <i class="fas fa-share-alt text-blue-500"></i>
+                    شارك هذا الخبر
+                </h6>
+                <div class="flex flex-wrap gap-3">
+                    <a id="share-whatsapp" href="#" target="_blank"
+                        class="share-btn flex items-center gap-2 px-5 py-2.5 bg-green-500 text-white rounded-xl font-bold text-sm shadow hover:bg-green-600">
+                        <i class="fab fa-whatsapp text-lg"></i> واتساب
+                    </a>
+                    <a id="share-twitter" href="#" target="_blank"
+                        class="share-btn flex items-center gap-2 px-5 py-2.5 bg-sky-500 text-white rounded-xl font-bold text-sm shadow hover:bg-sky-600">
+                        <i class="fab fa-twitter text-lg"></i> تويتر
+                    </a>
+                    <a id="share-facebook" href="#" target="_blank"
+                        class="share-btn flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm shadow hover:bg-blue-700">
+                        <i class="fab fa-facebook-f text-lg"></i> فيسبوك
+                    </a>
+                    <button onclick="copyPageLink()" id="copy-link-btn"
+                        class="share-btn flex items-center gap-2 px-5 py-2.5 bg-slate-100 text-slate-700 rounded-xl font-bold text-sm shadow hover:bg-slate-200">
+                        <i class="fas fa-link"></i> نسخ الرابط
+                    </button>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="text-center">
+                <a href="index.html#news"
+                    class="inline-flex items-center gap-3 px-8 py-3 bg-blue-600 text-white rounded-2xl font-bold shadow-xl hover:bg-blue-700 transition-all">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة إلى قائمة الأخبار
+                </a>
+            </div>
+
+        </article>
+
+        <!-- Not Found -->
+        <div id="not-found" class="hidden text-center py-24">
+            <i class="fas fa-newspaper text-6xl text-slate-200 mb-6 block"></i>
+            <h3 class="text-2xl font-bold text-slate-500 mb-3">لم يتم العثور على الخبر</h3>
+            <p class="text-slate-400 mb-8">يبدو أن هذا الخبر غير موجود أو تم حذفه.</p>
+            <a href="index.html#news"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all">
+                <i class="fas fa-arrow-right"></i>
+                العودة للأخبار
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-8 mt-8">
+        <div class="container mx-auto px-6 text-center text-slate-400 text-sm">
+            <p>جميع الحقوق محفوظة &copy; مؤسسة ليان لأجل الإنسان</p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script>
+        /* =============================================
+           NEWS DETAIL PAGE LOGIC
+        ============================================= */
+
+        function fixDriveUrl(url) {
+            if (!url || url.trim() === '' || url === 'undefined') return null;
+            try {
+                let fileId = null;
+                const lh3Match = url.match(/lh3\.googleusercontent\.com\/d\/([^/?&=]+)/);
+                if (lh3Match) fileId = lh3Match[1];
+                if (!fileId) { const m = url.match(/\/d\/([a-zA-Z0-9_-]{20,})/); if (m) fileId = m[1]; }
+                if (!fileId) { const m = url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/); if (m) fileId = m[1]; }
+                if (!fileId) { const m = url.match(/([a-zA-Z0-9_-]{25,})/); if (m) fileId = m[1]; }
+                if (fileId) return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`;
+                return url;
+            } catch (e) { return null; }
+        }
+
+        function formatContent(text) {
+            if (!text) return '<p class="text-slate-400 italic">لا يوجد محتوى متاح.</p>';
+            // Convert newlines to paragraphs
+            return text.split(/\n+/)
+                .filter(p => p.trim())
+                .map(p => `<p>${p.trim()}</p>`)
+                .join('');
+        }
+
+        async function loadNews() {
+            const params = new URLSearchParams(window.location.search);
+            const newsId = decodeURIComponent(params.get('id') || '');
+
+            if (!newsId) {
+                showNotFound();
+                return;
+            }
+
+            // Try localStorage cache first (fast)
+            let allNews = [];
+            const cached = localStorage.getItem('layan_all_news');
+            if (cached) {
+                try { allNews = JSON.parse(cached); } catch (e) { }
+            }
+
+            // Find item in cache
+            let item = findNewsItem(allNews, newsId);
+
+            // If not in cache, fetch from API
+            if (!item) {
+                try {
+                    allNews = await API.get('getNews');
+                    if (Array.isArray(allNews)) {
+                        localStorage.setItem('layan_all_news', JSON.stringify(allNews));
+                        item = findNewsItem(allNews, newsId);
+                    }
+                } catch (e) {
+                    console.error('Failed to fetch news:', e);
+                }
+            }
+
+            if (!item) {
+                showNotFound();
+                return;
+            }
+
+            renderArticle(item);
+        }
+
+        function findNewsItem(allNews, newsId) {
+            if (!Array.isArray(allNews)) return null;
+            // Try exact title match first
+            return allNews.find(n =>
+                encodeURIComponent(n.Title) === encodeURIComponent(newsId) ||
+                n.Title === newsId ||
+                n.Title === decodeURIComponent(newsId)
+            ) || allNews[parseInt(newsId)] || null;
+        }
+
+        function renderArticle(item) {
+            // Hide skeleton
+            document.getElementById('skeleton-loader').classList.add('hidden');
+
+            // Title
+            document.title = `${item.Title || 'خبر'} | مؤسسة ليان`;
+            document.getElementById('article-title').textContent = item.Title || '';
+            document.getElementById('breadcrumb-title').textContent = item.Title || '';
+
+            // Category & Date
+            document.getElementById('article-category').textContent = item.Category || 'أخبار';
+            document.getElementById('article-date').textContent = item.Date || '';
+
+            // Image
+            const imgUrl = fixDriveUrl(item.Images);
+            if (imgUrl) {
+                const imgEl = document.getElementById('article-image');
+                imgEl.src = imgUrl;
+                imgEl.alt = item.Title || 'صورة الخبر';
+                document.getElementById('image-wrapper').classList.remove('hidden');
+            }
+
+            // Content
+            document.getElementById('article-body').innerHTML = formatContent(item.Content);
+
+            // Tags
+            if (item.Tags) {
+                const tags = item.Tags.toString().split(/[,،]+/).filter(t => t.trim());
+                if (tags.length > 0) {
+                    document.getElementById('tags-section').classList.remove('hidden');
+                    document.getElementById('tags-container').innerHTML = tags
+                        .map(t => `<span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded-full border border-blue-200">${t.trim()}</span>`)
+                        .join('');
+                }
+            }
+
+            // Share links
+            const pageUrl = encodeURIComponent(window.location.href);
+            const shareText = encodeURIComponent(`${item.Title} - مؤسسة ليان لأجل الإنسان  `);
+            document.getElementById('share-whatsapp').href = `https://wa.me/?text=${shareText}%20${pageUrl}`;
+            document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?text=${shareText}&url=${pageUrl}`;
+            document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+
+            // Show article
+            document.getElementById('article-container').classList.remove('hidden');
+        }
+
+        function showNotFound() {
+            document.getElementById('skeleton-loader').classList.add('hidden');
+            document.getElementById('not-found').classList.remove('hidden');
+        }
+
+        function copyPageLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const btn = document.getElementById('copy-link-btn');
+                btn.innerHTML = '<i class="fas fa-check text-green-500"></i> تم النسخ!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-link"></i> نسخ الرابط';
+                }, 2500);
+            });
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', loadNews);
+    </script>
+
+</body>
+
+</html>
